@@ -8,10 +8,10 @@ hyprctl dispatch submap reset
 
 case "$1" in
 	lock)
-		hyprlock		
+		hyprlock
 		;;
 	logout)
-		hyprctl exit
+		hyprctl dispatch exit
 		;;
 	switch_user)
 		dm-tool switch-to-greeter
@@ -23,7 +23,7 @@ case "$1" in
 		hyprlock && $logind hibernate
 		;;
 	reboot)
-		$logind
+		$logind reboot
 		;;
 	shutdown)
 		$logind poweroff
