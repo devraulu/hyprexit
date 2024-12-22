@@ -1,0 +1,36 @@
+#! /bin/bash
+
+sys1=$(cat /proc/1/comm)
+
+[[ $sys1 == "systemd" ]] && logind=systemctl || logind=loginctl
+
+hyprctl dispatch submap reset
+
+case "$1" in
+	lock)
+		hyprlock
+		;;
+	logout)
+		hyprctl dispatch exit
+		;;
+	switch_user)
+		dm-tool switch-to-greeter
+		;;
+	suspend)
+		hyprlock && $logind suspend
+		;;
+	hibernate)
+		hyprlock && $logind hibernate
+		;;
+	reboot)
+		$logind reboot
+		;;
+	shutdown)
+		$logind poweroff
+		;;
+	@)
+		echo "Usage: hyprexit [lock|logout|switch_user|suspend|hibernate|reboot|shutdown]"
+		exit 2
+esac
+
+exit 0
